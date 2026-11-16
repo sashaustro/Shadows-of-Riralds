@@ -4,7 +4,7 @@ public class Player : MonoBehaviour
 {
     [SerializeField] private float moveSpeed = 5f;
     private CharacterController controller;
-    float fixedZPosition = 0f;
+    float fixedYPosition = 0f;
     void Start()
     {
         controller = GetComponent<CharacterController>();
@@ -23,9 +23,9 @@ public class Player : MonoBehaviour
 
 
         Vector3 position = transform.position;
-        if (position.y != fixedZPosition)
+        if (position.y != fixedYPosition)
         {
-            position.y = fixedZPosition;
+            position.y = fixedYPosition;
             transform.position = position;
         }
     }
