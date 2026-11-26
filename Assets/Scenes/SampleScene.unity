@@ -168,6 +168,10 @@ MonoBehaviour:
   w: 10
   h: 10
   max_distance: 15
+  min_distance: 3
+  roomSpacing: 32
+  roomSpawnY: 0
+  playerSpawnY: 0
 --- !u!1 &330585543
 GameObject:
   m_ObjectHideFlags: 0
@@ -318,9 +322,31 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7d1965cf9a5b5544e8e47fad3e929447, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Camera
-  angle: 60
-  distance: 10
   target: {fileID: 987954072}
+  targetOffset: {x: 0, y: 1.1, z: 0}
+  followSmoothSpeed: 10
+  yawAngle: 0
+  defaultYawAngle: 0
+  orbitSensitivity: 4.2
+  orbitSmoothTime: 0.06
+  orbitDragThreshold: 0.03
+  hideCursorWhileOrbiting: 1
+  centerBehindPlayerKey: 99
+  doubleClickThreshold: 0.28
+  recenterSmoothTime: 0.26
+  maxRecenterSpeed: 420
+  mouseLeadAmount: 0.18
+  maxMouseLeadDistance: 1.6
+  mouseLeadSmoothSpeed: 6
+  angle: 44
+  distance: 10
+  minAngle: 32
+  maxAngle: 56
+  minDistance: 6.5
+  maxDistance: 13.5
+  scrollSensitivity: 0.2
+  scrollMultiplier: 5
+  zoomSmoothSpeed: 8
 --- !u!1 &410087039
 GameObject:
   m_ObjectHideFlags: 0
@@ -539,7 +565,7 @@ CharacterController:
   m_StepOffset: 0.3
   m_SkinWidth: 0.08
   m_MinMoveDistance: 0.001
-  m_Center: {x: 0, y: 0, z: 0}
+  m_Center: {x: 0, y: 1, z: 0}
 --- !u!4 &987954072
 Transform:
   m_ObjectHideFlags: 0
@@ -569,8 +595,23 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Player
   moveSpeed: 10
+  acceleration: 18
+  turnSmoothTime: 0.08
+  maxTurnSpeed: 720
+  aimHeightOffset: 0.9
+  minAimDistance: 0.35
+  showAimIndicator: 1
+  aimIndicatorRadius: 0.85
+  aimIndicatorHeight: 0.06
+  aimIndicatorWidth: 0.055
+  aimIndicatorColor: {r: 0.95, g: 0.85, b: 0.45, a: 0.65}
   dashDistance: 3
   dashDuration: 0.3
+  dashCooldown: 0.4
+  useGravity: 1
+  gravity: -20
+  groundedGravity: -2
+  fixedYPosition: 0
 --- !u!1001 &1871472754
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -652,5 +693,5 @@ SceneRoots:
   - {fileID: 330585546}
   - {fileID: 410087041}
   - {fileID: 832575519}
-  - {fileID: 987954072}
   - {fileID: 318105900}
+  - {fileID: 987954072}

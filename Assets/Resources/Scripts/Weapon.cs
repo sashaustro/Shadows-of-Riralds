@@ -3,11 +3,14 @@ using UnityEngine;
 
 public class Weapon : MonoBehaviour
 {
-    public WeaponData weapon;
+    [Header("Weapon Pickup")]
+    [SerializeField] public WeaponData weapon;
+    [SerializeField] private float pickUpDelay = 0.05f;
+    [SerializeField] private string playerTag = "Player";
 
     private void OnTriggerStay(Collider other)
     {
-        if (other.CompareTag("Player"))
+        if (other.CompareTag(playerTag))
         {
             PickUpItem();
         }
@@ -18,9 +21,9 @@ public class Weapon : MonoBehaviour
         StartCoroutine(PickUp());
     }
 
-    IEnumerator PickUp()
+    private IEnumerator PickUp()
     {
-        yield return new WaitForSeconds(0.05f);
+        yield return new WaitForSeconds(pickUpDelay);
         Destroy(gameObject);
     }
 }

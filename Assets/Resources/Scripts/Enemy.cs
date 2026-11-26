@@ -3,20 +3,27 @@ using UnityEngine.AI;
 
 public abstract class Enemy : MonoBehaviour
 {
-    [SerializeField] protected float health;
-    [SerializeField] protected float speed;
-    [SerializeField] protected float attack;
+    [Header("Enemy Stats")]
+    [SerializeField] protected float health = 100f;
+    [SerializeField] protected float speed = 3.5f;
+    [SerializeField] protected float attack = 10f;
+    [SerializeField] public float curHealth;
+
+    [Header("Target")]
+    [SerializeField] protected string playerTag = "Player";
+
     protected GameObject player;
     protected NavMeshAgent agent;
-
-    public float curHealth;
 
     protected virtual void Awake()
     {
         curHealth = health;
-        player = GameObject.FindGameObjectWithTag("Player");
+        player = GameObject.FindGameObjectWithTag(playerTag);
         agent = GetComponent<NavMeshAgent>();
-        agent.speed = speed;
+        if (agent != null)
+        {
+            agent.speed = speed;
+        }
     }
 
     protected virtual void Update()
@@ -30,7 +37,7 @@ public abstract class Enemy : MonoBehaviour
     {
         curHealth -= damage;
 
-        if (curHealth <=0)
+        if (curHealth <= 0f)
         {
             Die();
         }
@@ -43,6 +50,5 @@ public abstract class Enemy : MonoBehaviour
 
     protected virtual void OnTriggerEnter()
     {
-
     }
 }
