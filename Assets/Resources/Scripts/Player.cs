@@ -1,4 +1,3 @@
-
 using UnityEngine;
 
 public class Player : MonoBehaviour
@@ -30,6 +29,27 @@ public class Player : MonoBehaviour
         Vector3 move = new Vector3(InputX, 0, InputY);
         move = Vector3.ClampMagnitude(move, 1f);
 
+        // Поворот персонажа за курсором
+        Ray ray = UnityEngine.Camera.main.ScreenPointToRay(
+            Input.mousePosition
+        );
+
+        Plane ground = new Plane(Vector3.up, transform.position);
+
+        if (ground.Raycast(ray, out float distance))
+        {
+            Vector3 point = ray.GetPoint(distance);
+
+            Vector3 direction = point - transform.position;
+            direction.y = 0;
+
+            if (direction.sqrMagnitude > 0.001f)
+                transform.rotation = Quaternion.LookRotation(direction);
+        }
+
+        // Перерахунок руху відносно повороту персонажа
+        Vector3 localMove = transform.InverseTransformDirection(move);
+
         // Запуск Dash
         if (Input.GetKeyDown(KeyCode.LeftShift) &&
             !isDashing &&
@@ -39,8 +59,8 @@ public class Player : MonoBehaviour
             dashTimer = dashDuration;
             dashDirection = move;
 
-            _anim.SetFloat("dashX", move.x);
-            _anim.SetFloat("dashY", move.z);
+            _anim.SetFloat("dashX", localMove.x);
+            _anim.SetFloat("dashY", localMove.z);
             _anim.SetTrigger("dash");
         }
 
@@ -68,7 +88,7 @@ public class Player : MonoBehaviour
             controller.Move(move * moveSpeed * Time.deltaTime);
         }
 
-        // Фіксуємо висоту
+        // Фіксація висоти
         Vector3 position = transform.position;
 
         if (position.y != fixedYPosition)
@@ -77,8 +97,8 @@ public class Player : MonoBehaviour
             transform.position = position;
         }
 
-        // Анімація руху
-        _anim.SetFloat("moveX", isDashing ? 0 : move.x);
-        _anim.SetFloat("moveY", isDashing ? 0 : move.z);
+        // Анімація відносно повороту персонажа
+        _anim.SetFloat("moveX", isDashing ? 0 : localMove.x);
+        _anim.SetFloat("moveY", isDashing ? 0 : localMove.z);
     }
 }
